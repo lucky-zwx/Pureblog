@@ -21,3 +21,6 @@ navitem_githubio_link你的github的io界面
 
 mysqlurls为mysql的连接配置,第一个beego为用户名，第二个为密码，第三个为数据库名
 
+![VrLAQe.png](https://s2.ax1x.com/2019/06/09/VrLAQe.png)
+
+sessionproviderconfig和sessionsavepath为session的配置，这里我将session保存在mysql当中
