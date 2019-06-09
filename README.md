@@ -1,6 +1,6 @@
 # Pureblog
 基于Purecss以及beego打造的博客系统
-本博客系统会一直进行更新，下一步将实现分页显示功能，以及更多前端页面增加及优化
+=== 本博客系统会一直进行更新，下一步将实现分页显示功能，以及更多前端页面增加及优化
 
 下面是配置文件讲解
 [![Vrb1tf.th.png](https://s2.ax1x.com/2019/06/09/Vrb1tf.th.png)](https://imgchr.com/i/Vrb1tf)
