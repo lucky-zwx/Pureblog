@@ -5,7 +5,7 @@
 
 下面是配置文件讲解
 
-[![Vrb1tf.th.png](https://s2.ax1x.com/2019/06/09/Vrb1tf.th.png)](https://imgchr.com/i/Vrb1tf)
+[![Vrb1tf.png](https://s2.ax1x.com/2019/06/09/Vrb1tf.png)](https://imgchr.com/i/Vrb1tf)
 
 其中blog_name为你的博客名称，将显示在主页中
 
