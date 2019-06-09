@@ -16,3 +16,8 @@ blog_url为博客地址
 navitem_github_link你的github页面
 
 navitem_githubio_link你的github的io界面
+
+![Vrqaxe.png](https://s2.ax1x.com/2019/06/09/Vrqaxe.png)
+
+mysqlurls为mysql的连接配置,第一个beego为用户名，第二个为密码，第三个为数据库名
+
