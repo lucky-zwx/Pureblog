@@ -28,7 +28,6 @@ func init() {
 type MainController struct {
 	beego.Controller
 }
-
 func (c *MainController) Blog_index() {
 	o := orm.NewOrm()
 	qs := o.QueryTable("blog_article")
@@ -110,7 +109,7 @@ func (c *MainController) Blog_getarticle_json() {
 		qs := o.QueryTable("blog_article")
 		if id == "0" {
 			var ArticleList []orm.ParamsList
-			_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").ValuesList(&ArticleList)
+			_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
 			if Aerror == nil {
 				c.Data["json"] = &ArticleList
 				c.ServeJSON()
