@@ -28,6 +28,7 @@ func init() {
 type MainController struct {
 	beego.Controller
 }
+
 func (c *MainController) Blog_index() {
 	o := orm.NewOrm()
 	qs := o.QueryTable("blog_article")
@@ -42,14 +43,14 @@ func (c *MainController) Blog_index() {
 		c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 		c.Data["Category"] = CategoryList
 		c.TplName = "index.html"
-	}else {
+	} else {
 		logs.Error(Cerror.Error())
 	}
 }
 
 func (c *MainController) Blog_category() {
 	cate := c.Ctx.Input.Param(":cate")
-	if FilteredSQLInject(cate){
+	if FilteredSQLInject(cate) {
 		c.Redirect("/", 302)
 	}
 	o := orm.NewOrm()
@@ -68,8 +69,9 @@ func (c *MainController) Blog_category() {
 		c.Data["Category"] = CategoryList
 		c.Data["Postlist"] = &Postlist
 		c.TplName = "category.html"
-	}else {
+	} else {
 		logs.Error(Cerror.Error())
+		logs.Error(Perror.Error())
 	}
 }
 
@@ -86,10 +88,12 @@ func (c *MainController) Blog_article() {
 		article := models.BlogArticle{}
 		article.Id, _ = strconv.ParseInt(blogid, 10, 64)
 		var CategoryList []orm.ParamsList
-		oerror := o.Read(&article)
+		Oerror := o.Read(&article)
 		qs := o.QueryTable("blog_article")
 		_, Cerror := qs.GroupBy("category").ValuesList(&CategoryList, "category")
-		if oerror != nil && Cerror != nil {
+		if Oerror != nil && Cerror != nil {
+			logs.Error(Cerror.Error())
+			logs.Error(Oerror.Error())
 			c.Data["Errormes"] = "SORRY，没有该文章！！！"
 			c.TplName = "502.html"
 		} else {
@@ -113,6 +117,8 @@ func (c *MainController) Blog_getarticle_json() {
 			if Aerror == nil {
 				c.Data["json"] = &ArticleList
 				c.ServeJSON()
+			}else {
+				logs.Error(Aerror.Error())
 			}
 		} else {
 			var ArticleList []orm.ParamsList
@@ -121,6 +127,8 @@ func (c *MainController) Blog_getarticle_json() {
 			if Aerror == nil {
 				c.Data["json"] = &ArticleList
 				c.ServeJSON()
+			}else {
+				logs.Error(Aerror.Error())
 			}
 		}
 	}
@@ -132,8 +140,9 @@ func (c *MainController) Blgo_articleupdate() {
 		c.Redirect("/login", 302)
 	} else {
 		uparticle := models.BlogArticle{}
-		cerror := c.ParseForm(&uparticle)
-		if cerror != nil {
+		Cerror := c.ParseForm(&uparticle)
+		if Cerror != nil {
+			logs.Error(Cerror)
 			c.Data["Errormes"] = "您输入的信息有误请重新输入"
 			c.TplName = "502.html"
 		} else {
@@ -143,10 +152,9 @@ func (c *MainController) Blgo_articleupdate() {
 				uparticle.Morecontent = uparticle.Content
 			}
 			o := orm.NewOrm()
-			logs.Info(uparticle)
-			_, oerror := o.Update(&uparticle, "title", "content", "category", "top", "morecontent")
-			if oerror != nil {
-				logs.Error(oerror.Error())
+			_, Oerror := o.Update(&uparticle, "title", "content", "category", "top", "morecontent")
+			if Oerror != nil {
+				logs.Error(Oerror.Error())
 				c.Data["Errormes"] = "文章更新失败!"
 				c.TplName = "502.html"
 			} else {
@@ -162,14 +170,16 @@ func (c *MainController) Blgo_articledelete() {
 		c.Redirect("/login", 302)
 	} else {
 		delarticle := models.BlogArticle{}
-		cerror := c.ParseForm(&delarticle)
-		if cerror != nil {
+		Cerror := c.ParseForm(&delarticle)
+		if Cerror != nil {
+			logs.Error(Cerror.Error())
 			c.Data["Errormes"] = "您输入的信息有误请重新输入"
 			c.TplName = "502.html"
 		} else {
 			o := orm.NewOrm()
-			_, oerror := o.Delete(&delarticle, "id")
-			if oerror != nil {
+			_, Oerror := o.Delete(&delarticle, "id")
+			if Oerror != nil {
+				logs.Error(Oerror.Error())
 				c.Data["Errormes"] = "文章删除失败!"
 				c.TplName = "502.html"
 			} else {
@@ -185,7 +195,7 @@ func (c *MainController) Blgo_articleadd_post() {
 		c.Redirect("/login", 302)
 	} else {
 		addarticle := models.BlogArticle{}
-		cerror := c.ParseForm(&addarticle)
+		Cerror := c.ParseForm(&addarticle)
 		username := c.GetSession("Pureblog")
 		addarticle.Author = username.(string)
 		addarticle.Addtime = orm.DateTimeField(time.Now())
@@ -194,15 +204,15 @@ func (c *MainController) Blgo_articleadd_post() {
 		} else {
 			addarticle.Morecontent = addarticle.Content
 		}
-		if cerror != nil {
-			logs.Error(cerror.Error())
+		if Cerror != nil {
+			logs.Error(Cerror.Error())
 			c.Data["Errormes"] = "您输入的信息有误请重新输入"
 			c.TplName = "502.html"
 		} else {
 			o := orm.NewOrm()
-			_, oerror := o.Insert(&addarticle)
-			if oerror != nil {
-				logs.Error(oerror.Error())
+			_, Oerror := o.Insert(&addarticle)
+			if Oerror != nil {
+				logs.Error(Oerror.Error())
 				c.Data["Errormes"] = "文章添加失败!"
 				c.TplName = "502.html"
 			} else {
@@ -236,6 +246,8 @@ func (c *MainController) Blog_admin() {
 			c.Data["Category"] = CategoryList
 			c.Data["xsrf_token"] = c.XSRFToken()
 			c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+		}else {
+			logs.Error(Cerror.Error())
 		}
 		c.TplName = "admin.html"
 	}
@@ -260,18 +272,21 @@ func (c *MainController) Blog_checkpwd() {
 		Key  string `form:"captcha"`
 	}
 	cuser := Check_User{}
-	cerror := c.ParseForm(&cuser)    //将form表单数据储存到cuser中
+	Cerror := c.ParseForm(&cuser)    //将form表单数据储存到cuser中
 	valid := validation.Validation{} //表单验证
 	valid.MaxSize(cuser.User, 10, "User")
 	valid.Length(cuser.Pwd, 32, "Pwd")
 	o := orm.NewOrm()                                                  //获得orm
 	checkpass := models.Admin{Username: cuser.User, Pappwd: cuser.Pwd} //初始化结构，用于账号和密码校验
-	oerror := o.Read(&checkpass)                                       //进行用户查询
+	Oerror := o.Read(&checkpass)                                       //进行用户查询
 
-	if !cpt.VerifyReq(c.Ctx.Request) || oerror != nil || cerror != nil || valid.HasErrors() || FilteredSQLInject(cuser.User+cuser.Pwd+cuser.Key) {
+	if !cpt.VerifyReq(c.Ctx.Request) || Oerror != nil || Cerror != nil || valid.HasErrors() || FilteredSQLInject(cuser.User+cuser.Pwd+cuser.Key) {
 		c.Data["Errormes"] = "您输入的信息有误请重新输入"
 		c.TplName = "502.html"
+		logs.Error("表单验证：")
 		logs.Error(valid.Errors)
+		logs.Error("用户密码校验：")
+		logs.Error(Oerror.Error())
 	} else {
 		csession := c.GetSession("Pureblog")
 		if csession == nil {
