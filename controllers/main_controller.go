@@ -58,7 +58,7 @@ func (c *MainController) Blog_category() {
 	var CategoryList []orm.ParamsList
 	var Postlist []models.BlogArticle
 	_, Cerror := qs.GroupBy("category").ValuesList(&CategoryList, "category")
-	_, Perror := qs.Filter("category__iexact", cate).All(&Postlist)
+	_, Perror := qs.Filter("category__iexact", cate).All(&Postlist, "id", "author", "top", "title", "morecontent", "category", "addtime")
 	if Cerror == nil && Perror == nil {
 		c.Data["name"] = beego.AppConfig.String("blog_name")
 		c.Data["second_name"] = beego.AppConfig.String("blog_second_name")
@@ -146,11 +146,6 @@ func (c *MainController) Blgo_articleupdate() {
 			c.Data["Errormes"] = "您输入的信息有误请重新输入"
 			c.TplName = "502.html"
 		} else {
-			if len(uparticle.Content) > 200 {
-				uparticle.Morecontent = uparticle.Content[0:200]
-			} else {
-				uparticle.Morecontent = uparticle.Content
-			}
 			o := orm.NewOrm()
 			_, Oerror := o.Update(&uparticle, "title", "content", "category", "top", "morecontent")
 			if Oerror != nil {
@@ -199,11 +194,6 @@ func (c *MainController) Blgo_articleadd_post() {
 		username := c.GetSession("Pureblog")
 		addarticle.Author = username.(string)
 		addarticle.Addtime = orm.DateTimeField(time.Now())
-		if len(addarticle.Content) > 200 {
-			addarticle.Morecontent = addarticle.Content[0:200]
-		} else {
-			addarticle.Morecontent = addarticle.Content
-		}
 		if Cerror != nil {
 			logs.Error(Cerror.Error())
 			c.Data["Errormes"] = "您输入的信息有误请重新输入"
