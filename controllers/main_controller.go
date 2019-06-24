@@ -109,46 +109,60 @@ func (c *MainController) Blog_article() {
 }
 
 func (c *MainController) Blog_getarticle_json() {
-	if id := c.Ctx.Input.Param(":id"); id != "" && strings.Index(id, "page") == -1 {
+	id := c.Ctx.Input.Param(":id")
+	if strings.Index(id, "all") != -1 {
 		o := orm.NewOrm()
 		qs := o.QueryTable("blog_article")
-		if id == "0" {
-			var ArticleList []orm.ParamsList
-			_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").Limit(10).ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
-			if Aerror == nil {
-				c.Data["json"] = &ArticleList
-				c.ServeJSON()
-			}else {
-				logs.Error(Aerror.Error())
-			}
+		var ArticleList []orm.ParamsList
+		_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
+		if Aerror == nil {
+			c.Data["json"] = &ArticleList
+			c.ServeJSON()
 		} else {
-			var ArticleList []orm.ParamsList
-			sid, _ := strconv.Atoi(id)
-			_, Aerror := qs.Filter("id", sid).ValuesList(&ArticleList)
-			if Aerror == nil {
-				c.Data["json"] = &ArticleList
-				c.ServeJSON()
-			}else {
-				logs.Error(Aerror.Error())
-			}
+			logs.Error(Aerror.Error())
 		}
 	}else {
-		page, _ := strconv.Atoi(id[4:])
-		page *= 10
-		o := orm.NewOrm()
-		qs := o.QueryTable("blog_article")
-		var postcount int64
-		postcount, _ = qs.Count()
-		if postcount+10 > int64(page){
-			var ArticleList []orm.ParamsList
-			_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").Limit(10, page).ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
-			if Aerror == nil {
-				c.Data["json"] = &ArticleList
-				c.ServeJSON()
-			}else {
-				logs.Error(Aerror.Error())
-				c.Data["json"] = "error"
-				c.ServeJSON()
+		if id != "" && strings.Index(id, "page") == -1 {
+			o := orm.NewOrm()
+			qs := o.QueryTable("blog_article")
+			if id == "0" {
+				var ArticleList []orm.ParamsList
+				_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").Limit(10).ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
+				if Aerror == nil {
+					c.Data["json"] = &ArticleList
+					c.ServeJSON()
+				} else {
+					logs.Error(Aerror.Error())
+				}
+			} else {
+				var ArticleList []orm.ParamsList
+				sid, _ := strconv.Atoi(id)
+				_, Aerror := qs.Filter("id", sid).ValuesList(&ArticleList)
+				if Aerror == nil {
+					c.Data["json"] = &ArticleList
+					c.ServeJSON()
+				} else {
+					logs.Error(Aerror.Error())
+				}
+			}
+		} else {
+			page, _ := strconv.Atoi(id[4:])
+			page *= 10
+			o := orm.NewOrm()
+			qs := o.QueryTable("blog_article")
+			var postcount int64
+			postcount, _ = qs.Count()
+			if postcount+10 > int64(page) {
+				var ArticleList []orm.ParamsList
+				_, Aerror := qs.Filter("id__isnull", false).OrderBy("-top").Limit(10, page).ValuesList(&ArticleList, "id", "author", "top", "title", "morecontent", "category", "addtime")
+				if Aerror == nil {
+					c.Data["json"] = &ArticleList
+					c.ServeJSON()
+				} else {
+					logs.Error(Aerror.Error())
+					c.Data["json"] = "error"
+					c.ServeJSON()
+				}
 			}
 		}
 	}
