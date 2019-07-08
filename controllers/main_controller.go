@@ -121,7 +121,7 @@ func (c *MainController) Blog_getarticle_json() {
 		} else {
 			logs.Error(Aerror.Error())
 		}
-	}else {
+	} else {
 		if id != "" && strings.Index(id, "page") == -1 {
 			o := orm.NewOrm()
 			qs := o.QueryTable("blog_article")
@@ -270,7 +270,7 @@ func (c *MainController) Blog_admin() {
 			c.Data["Category"] = CategoryList
 			c.Data["xsrf_token"] = c.XSRFToken()
 			c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-		}else {
+		} else {
 			logs.Error(Cerror.Error())
 		}
 		c.TplName = "admin.html"

@@ -130,12 +130,17 @@ a {
     background: #40c365;
 }
 
-.label-java,
+.label-JAVA,
+.label-QT,
 .label-c,
 .label-go,
 .label-python,
 .label-html,
 .label-javascript,
+.label-日常,
+.label-未分类,
+.label-算法,
+.label-网络,
 .label-随笔{
     width: 15px;
     height: 15px;
@@ -143,7 +148,7 @@ a {
     margin-right: 0.5em;
     border-radius: 3px;
 }
-.label-java {
+.label-JAVA {
     background: #ffc94c;
 }
 .label-c {
@@ -161,8 +166,24 @@ a {
 .label-javascript {
     background: #c3a965;
 }
-.label-随笔 {
+.label-QT {
+    background: #dfc6d8;
+}
+
+.label-日常 {
     background: #adff2f;
+}
+.label-未分类 {
+    background: #ff843e;
+}
+.label-算法 {
+    background: #ff3c6f;
+}
+.label-网络 {
+    background: #5fd6ff;
+}
+.label-随笔 {
+    background: #8156a7;
 }
 
 input{

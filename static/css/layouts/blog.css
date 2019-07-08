@@ -123,7 +123,7 @@ h3 {
     .post-category-c {
         background: #5aba59;
     }
-    .post-category-java {
+    .post-category-JAVA {
         background: #4d85d1;
     }
     .post-category-随笔 {
@@ -136,12 +136,24 @@ h3 {
         background: #69d0df;
     }
     .post-category-go {
-        background: #b7df4e;
+        background: #dfc6d8;
     }
     .post-category-html {
-        background: #b7df4e;
+        background: #dfae19;
     }
-    .post-category- {
+    .post-category-QT {
+        background: #b9dfd5;
+    }
+    .post-category-未分类 {
+        background: #df26af;
+    }
+    .post-category-算法 {
+        background: #21df1f;
+    }
+    .post-category-日常 {
+        background: #c6df64;
+    }
+    .post-category-网络 {
         background: #b7df4e;
     }
 

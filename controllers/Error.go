@@ -16,7 +16,6 @@ func (c *ErrorController) Error502() {
 	c.TplName = "502.html"
 }
 
-
 func (c *ErrorController) ErrorDb() {
 	c.TplName = "502.html"
 }

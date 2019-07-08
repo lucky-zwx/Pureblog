@@ -8,7 +8,7 @@ import (
 
 func init() {
 	maxIdle := 30
-	maxConn := 30
+	maxConn := 100
 	mysqlurls := beego.AppConfig.String("mysqlurls")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", ""+mysqlurls, maxIdle, maxConn)
@@ -17,19 +17,19 @@ func init() {
 }
 
 type BlogArticle struct {
-	Id int64 `orm:"auto;index;pk"`
-	Author string
-	Top bool
-	Title string
-	Content orm.TextField
+	Id          int64 `orm:"auto;index;pk"`
+	Author      string
+	Top         bool
+	Title       string
+	Content     orm.TextField
 	Morecontent orm.TextField
-	Category string
-	Addtime orm.DateTimeField `orm:"null"`
+	Category    string
+	Addtime     orm.DateTimeField `orm:"null"`
 }
 
 type Admin struct {
-	Username string	`orm:"pk"`
-	Pappwd string
-	Headimg string
-	Email string
+	Username string `orm:"pk"`
+	Pappwd   string
+	Headimg  string
+	Email    string
 }
