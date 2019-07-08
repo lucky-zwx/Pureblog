@@ -1,6 +1,7 @@
 # Pureblog
 基于Purecss以及beego打造的博客系统
-[![Zre3G9.th.png](https://s2.ax1x.com/2019/07/08/Zre3G9.th.png)](https://imgchr.com/i/Zre3G9)
+
+[![Zre3G9.md.png](https://s2.ax1x.com/2019/07/08/Zre3G9.md.png)](https://imgchr.com/i/Zre3G9)
 
 ### 由于采用Purecss来实现前端，对手机端支持很差，请使用PC浏览
 
