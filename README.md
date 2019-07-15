@@ -1,6 +1,7 @@
-# Pureblog
+# Pureblog  
 基于Purecss以及beego打造的博客系统  
-**更加快速展示你的内容，只需提前搭建Mysql，无需其它多余操作**
+**更加快速展示你的内容，只需提前搭建Mysql，无需其它多余操作**  
+![ZolGUP.png](https://s2.ax1x.com/2019/07/15/ZolGUP.png)
 ##在此之前请在mysql中运行该文件，进行数据库结构导入**导入完成后在admin表中添加用户信息，密码请使用MD5加密后的！**
 ```
 SET NAMES utf8mb4;
@@ -88,5 +89,5 @@ mysqlurls = "数据库用户名:数据库密码@tcp(数据库地址记得加端�
 nohup ./Purelbog &
 ```
 ***
-+ app.conf配置文件
++ app.conf配置文件  
 httpport为运行端口，可作为nginx反向代理到80端口。如果想直接使用可以改到**80！！**
