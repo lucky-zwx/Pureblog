@@ -304,7 +304,7 @@ func (c *MainController) Blog_checkpwd() {
 	checkpass := models.Admin{Username: cuser.User, Pappwd: cuser.Pwd} //初始化结构，用于账号和密码校验
 	Oerror := o.Read(&checkpass)                                       //进行用户查询
 
-	if !cpt.VerifyReq(c.Ctx.Request) || Oerror != nil || Cerror != nil || valid.HasErrors() || FilteredSQLInject(cuser.User+cuser.Pwd+cuser.Key) {
+	if cuser.Pwd != checkpass.Pappwd || !cpt.VerifyReq(c.Ctx.Request) || Oerror != nil || Cerror != nil || valid.HasErrors() || FilteredSQLInject(cuser.User+cuser.Pwd+cuser.Key) {
 		c.Data["Errormes"] = "您输入的信息有误请重新输入"
 		c.TplName = "502.html"
 		logs.Error("表单验证：")
