@@ -1,5 +1,6 @@
 # Pureblog  
 基于Purecss以及beego打造的博客系统  
+[![ln6cMq.md.png](https://s2.ax1x.com/2019/12/29/ln6cMq.md.png)](https://imgchr.com/i/ln6cMq)
 **更加快速展示你的内容，只需提前搭建Mysql，无需其它多余操作**  
 ![ZolGUP.png](https://s2.ax1x.com/2019/07/15/ZolGUP.png)
 ## 在此之前请在mysql中运行该文件，进行数据库结构导入**导入完成后在admin表中添加用户信息，密码请使用MD5加密后的！**
